@@ -2,6 +2,31 @@
 	box-sizing: border-box;
 }
 
+/* Navigasi sebagai Flex Container */
+nav ul {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+	gap: 8px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+/* Styling untuk tautan/link navigasi */
+nav a {
+	color: #ffffff;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+main {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 16px;
+}
+
 /* Mengatur jarak dasar untuk halaman Home */
 #home {
 	background-color: #ffffff;
@@ -44,6 +69,7 @@
 }
 
 #contact {
+	grid-column: 1 / -1;
 	background-color: #f8fafc;
 	border: 1px solid #cbd5e1;
 	padding: 20px;
@@ -84,4 +110,20 @@
 	padding: 8px 14px;
 	margin: 8px 6px 0 0;
 	border: 1px solid #003366;
+}
+
+/* Aturan CSS untuk viewport dengan lebar minimal 768px (Tablet & Desktop) */
+@media (min-width: 768px) {
+	/* 1. Mengubah tata letak utama menjadi 2 kolom */
+	main {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	/* 2. Mengubah navigasi vertikal menjadi horizontal */
+	nav ul {
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		gap: 16px;
+	}
 }
