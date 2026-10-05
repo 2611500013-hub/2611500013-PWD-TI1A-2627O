@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Profil Mahasiswa</title>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -46,6 +46,7 @@
             <label for="nama">Nama Lengkap</label><br>
             <input
                 type="text"
+                class="input-form"
                 id="nama"
                 name="nama"
                 placeholder="Masukkan nama lengkap"
@@ -59,6 +60,7 @@
             <label for="email">Email</label><br>
             <input
                 type="email"
+                class="input-form"
                 id="email"
                 name="email"
                 placeholder="nama@email.com"
@@ -70,6 +72,7 @@
             <label for="semester">Semester</label><br>
             <input
                 type="number"
+                class="input-form"
                 id="semester"
                 name="semester"
                 min="1"
@@ -82,6 +85,7 @@
             <label for="tanggal">Tanggal Kunjungan</label><br>
             <input
                 type="date"
+                class="input-form"
                 id="tanggal"
                 name="tanggal"
                 required
@@ -132,7 +136,7 @@
         <div class="form-group">
             <label for="prodi">Program Studi</label><br>
 
-            <select id="prodi" name="prodi" required>
+            <select class="input-form" id="prodi" name="prodi" required>
                 <option value="">-- Pilih Program Studi --</option>
                 <option value="SI">Sistem Informasi</option>
                 <option value="TI">Teknik Informatika</option>
@@ -143,6 +147,7 @@
             <label for="pesan">Pesan</label><br>
 
             <textarea
+                class="input-form"
                 id="pesan"
                 name="pesan"
                 maxlength="300"
