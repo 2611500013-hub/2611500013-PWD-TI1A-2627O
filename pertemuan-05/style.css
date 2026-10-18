@@ -36,6 +36,24 @@ nav ul {
 	list-style: none;
 }
 
+.nav-toggle {
+	cursor: pointer;
+	background-color: #ffffff;
+	color: #003366;
+	font-weight: bold;
+	padding: 6px 10px;
+	border: 1px solid #ffffff;
+	margin-bottom: 8px;
+}
+
+#navMenu {
+	display: none;
+}
+
+#navMenu.nav-open {
+	display: flex;
+}
+
 /* Styling untuk tautan/link navigasi */
 nav a {
 	color: #ffffff;
@@ -138,6 +156,20 @@ section {
 	margin: 12px 0;
 }
 
+.form-feedback {
+	min-height: 1.5em;
+	margin: 8px 0;
+	font-weight: bold;
+}
+
+.form-feedback.error {
+	color: #b91c1c;
+}
+
+.form-feedback.success {
+	color: #166534;
+}
+
 #contact label {
 	color: #1f2937;
 	font-weight: bold;
@@ -192,6 +224,14 @@ footer p {
 	}
 
 	/* 2. Mengubah navigasi vertikal menjadi horizontal */
+	.nav-toggle {
+		display: none;
+	}
+
+	#navMenu {
+		display: flex;
+	}
+
 	nav ul {
 		flex-direction: row;
 		justify-content: flex-start;

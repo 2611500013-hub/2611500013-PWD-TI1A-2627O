@@ -10,7 +10,17 @@
 <header>
 <h1>Profil Mahasiswa</h1>
 <nav>
-<ul>
+<button
+ class="nav-toggle"
+ id="navToggle"
+ type="button"
+ aria-label="Buka navigasi"
+ aria-controls="navMenu"
+ aria-expanded="false"
+>
+ &#9776;
+</button>
+<ul id="navMenu">
 <li><a href="#home">Beranda</a></li>
 <li><a href="#about">Tentang</a></li>
 <li><a href="#contact">Kontak</a></li>
@@ -40,7 +50,7 @@
     <h2>Kontak</h2>
     <p>Kunjungi <a href="https://github.com/2611500013-hub">profil GitHub saya</a>.</p>
 
-    <form action="index.html" method="get">
+    <form id="contactForm" action="index.html" method="get" novalidate>
 
         <div class="form-group">
             <label for="nama">Nama Lengkap</label><br>
@@ -155,6 +165,8 @@
                 required
             ></textarea>
         </div>
+
+        <div id="formFeedback" class="form-feedback"></div>
 
         <button type="submit">Kirim</button>
         <button type="reset">Batal</button>
