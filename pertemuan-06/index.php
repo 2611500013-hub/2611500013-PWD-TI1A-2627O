@@ -2,7 +2,7 @@
 // Deklarasi Variabel & Tipe Data
 $nim = "2611500013";                         // String
 $namaMahasiswa = "Ricko Ferdian"; // String
-$programStudi = "SI";                         // String
+$programStudi = "TI";                         // String
 $tahunAkademik = "2026/2027";                 // String
 $semester = 1;                                // Integer
 $ipk = 0.0;                                  // Float
@@ -111,7 +111,7 @@ for ($i = 1; $i <= 5; $i++) {
 <ol>
 <?php
 $nomorSemester = 1;
-while ($nomorSemester <= 3) {
+while ($nomorSemester <= 1) {
     echo "<li>Semester " . $nomorSemester . "</li>";
     $nomorSemester++;
 }
