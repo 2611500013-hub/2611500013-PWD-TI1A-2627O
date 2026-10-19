@@ -1,22 +1,13 @@
-# P5 - JavaScript Dasar, DOM, Event, dan Validasi Sisi Klien
+# P6 - Variabel, Tipe Data, Operator, dan Struktur Kontrol PHP
 
 ## Deskripsi
-Dokumentasi pengembangan halaman web P5, meliputi JavaScript, DOM, event listener, interaksi navigasi, dan validasi formulir sisi klien.
+Dokumentasi halaman profil mahasiswa pada Pertemuan 6. Halaman menggunakan PHP untuk menampilkan data, memilih keterangan program studi dan semester, serta mempraktikkan perulangan `for` dan `while`.
 
-## Fitur dan Pengembangan
-- Baseline P5: menyalin dan memverifikasi artefak dari Pertemuan 4.
-- Hamburger menu: menerapkan interaksi buka-tutup navigasi menggunakan DOM dan `classList.toggle()`.
-- Validasi formulir: memvalidasi kolom nama, email, dan semester di sisi klien sebelum formulir diproses.
+## Galat yang Ditemukan dan Perbaikan
+- **Program studi tidak sesuai dengan identitas kelompok.** Nilai `$programStudi` sebelumnya `SI`, sehingga `switch` menampilkan Sistem Informasi, padahal identitas mahasiswa berada di kelompok TI1A. Nilai diperbaiki menjadi `TI`; halaman sekarang menampilkan Teknik Informatika beserta fokus program studinya.
+- **Daftar semester tidak mencerminkan semester yang sedang dijalani.** Perulangan `while` sebelumnya menampilkan semester 1 sampai 3, sementara nilai `$semester` adalah 1. Batas perulangan disesuaikan agar daftar menampilkan semester 1 saja.
 
-## Pengujian
-- Navigasi: pada layar seluler, tombol hamburger menampilkan atau menyembunyikan tautan navigasi dalam susunan kolom.
-- Validasi nama: nama dengan 2 karakter menampilkan pesan galat; panjang yang diterima adalah 3 sampai 50 karakter.
-- Validasi email: format tanpa `@` atau domain ditolak.
-- Validasi semester: angka di luar rentang 1 sampai 14 menampilkan pesan galat.
-- Interaksi dinamis: pesan feedback dihapus saat pengguna mengetik kembali atau menekan tombol reset.
-- Kolom wajib lainnya tetap diperiksa menggunakan validasi bawaan browser.
-
-## Riwayat Pengembangan
-- Menyiapkan baseline P5 dari artefak P4.
-- Menambahkan tombol navigasi responsif dan logika hamburger menu.
-- Menerapkan pencegahan submit bawaan, validasi formulir, dan feedback untuk pengguna.
+## Hasil Pengujian
+- Pemeriksaan sintaks menggunakan PHP 8.3.33 (`php -l pertemuan-06\index.php`): **lulus**, tidak ditemukan galat sintaks.
+- Eksekusi halaman melalui PHP CLI: **lulus**. Output memuat `Teknik Informatika (TI)`, `Sisa semester hingga batas: 13`, dan satu entri `Semester 1`.
+- Pemeriksaan tampilan visual, navigasi, dan validasi formulir di browser: **belum dilakukan**.
