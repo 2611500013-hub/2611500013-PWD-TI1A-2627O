@@ -1,3 +1,47 @@
+<?php
+// Deklarasi Variabel & Tipe Data
+$nim = "2611500013";                         // String
+$namaMahasiswa = "Ricko Ferdian"; // String
+$programStudi = "SI";                         // String
+$tahunAkademik = "2026/2027";                 // String
+$semester = 1;                                // Integer
+$ipk = 0.0;                                  // Float
+$statusAktif = true;                          // Boolean
+$catatanTambahan = null;                      // NULL
+
+// Deklarasi Konstanta
+const NAMA_MATA_KULIAH = "Pemrograman Web Dasar";
+const PROFIL_GITHUB = "RickoFerdian";
+
+// Kategori Semester (if-elseif-else)
+if ($semester < 3) {
+    $keteranganSemester = "Semester awal";
+} elseif ($semester <= 6) {
+    $keteranganSemester = "Semester menengah";
+} else {
+    $keteranganSemester = "Semester akhir";
+}
+
+// Fokus Program Studi (switch-case)
+switch ($programStudi) {
+    case "SI":
+        $namaProdi = "Sistem Informasi";
+        $fokusProgramStudi = "Sistem informasi dan proses bisnis";
+        break;
+    case "TI":
+        $namaProdi = "Teknik Informatika";
+        $fokusProgramStudi = "Komputasi dan pengembangan perangkat lunak";
+        break;
+    default:
+        $namaProdi = "Belum ditentukan";
+        $fokusProgramStudi = "Belum ditentukan";
+}
+
+$sisaSemester = max(0, 14 - $semester);
+$statusSemester = $semester >= 1 && $semester <= 14
+    ? "Dalam rentang 1-14"
+    : "Di luar rentang 1-14";
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -30,27 +74,56 @@
 <main>
 <section id="home">
 <h2>Selamat Datang</h2>
-<p>Halo, saya Ricko Ferdian. Saya sedang mempelajari Pemrograman Web Dasar.</p>
+<p>Halo, saya <strong><?php echo $namaMahasiswa; ?></strong>. 
+Saya sedang mempelajari matakuliah <strong><?php print NAMA_MATA_KULIAH; ?></strong> 
+pada tahun akademik <?php echo $tahunAkademik; ?>.</p>
 <img src="img/foto-profil.jpg" alt="foto profil Nama Mahasiswa">
 </section>
 <section id="about">
 <h2>Tentang Saya</h2>
 <article>
 <h3>Profil Singkat</h3>
-<p>Saya mahasiswa Program Studi Teknik Informatika.</p>
-<h3>Target Belajar</h3>
+<p>Program Studi: <?php echo $namaProdi . " (" . $programStudi . ")"; ?></p>
+<p>Fokus program studi: <?php echo $fokusProgramStudi; ?></p>
+<p>Status mahasiswa: <?php echo $statusAktif ? "Aktif" : "Tidak aktif"; ?></p>
+<p>Semester: <?php echo $semester . " (" . $keteranganSemester . ")"; ?></p>
+<p>Sisa semester hingga batas: <?php echo $sisaSemester; ?></p>
+<p>Pemeriksaan rentang semester: <?php echo $statusSemester; ?></p>
+<p>IPK: <?php echo number_format($ipk, 2, ',', '.'); ?></p>
+<p>Catatan tambahan: <?php echo $catatanTambahan === null ? "Belum ada" : $catatanTambahan; ?></p>
+<h3>Target Belajar (Perulangan for)</h3>
 <ol>
-<li>Memahami struktur HTML5.</li>
-<li>Menyusun halaman web semantik.</li>
-<li>Memvalidasi dokumen HTML.</li>
+<?php
+for ($i = 1; $i <= 5; $i++) {
+    echo "<li>Target belajar ke-" . $i . ": ";
+    switch ($i) {
+        case 1: echo "Memahami sintaks dasar PHP."; break;
+        case 2: echo "Menggunakan variabel dan konstanta."; break;
+        case 3: echo "Menerapkan operator dan percabangan."; break;
+        case 4: echo "Menggunakan perulangan for dan while."; break;
+        default: echo "Belum dipetakan"; break;
+    }
+    echo "</li>";
+}
+?>
+</ol>
+<h3>Semester (Perulangan while):</h3>
+<ol>
+<?php
+$nomorSemester = 1;
+while ($nomorSemester <= 3) {
+    echo "<li>Semester " . $nomorSemester . "</li>";
+    $nomorSemester++;
+}
+?>
 </ol>
 </article>
 </section>
 <section id="contact">
     <h2>Kontak</h2>
-    <p>Kunjungi <a href="https://github.com/2611500013-hub">profil GitHub saya</a>.</p>
+    <p>Kunjungi <a href="https://github.com/<?php echo PROFIL_GITHUB; ?>" target="_blank" rel="noopener noreferrer">profil GitHub saya</a>.</p>
 
-    <form id="contactForm" action="index.html" method="get" novalidate>
+    <form id="contactForm" action="index.php" method="get" novalidate>
 
         <div class="form-group">
             <label for="nama">Nama Lengkap</label><br>
@@ -175,7 +248,7 @@
 </section>
 </main>
 <footer>
-<p>&copy; 2026 Ricko Ferdian [2611500013]</p>
+<p>&copy; <?= date("Y") ?> <?php echo $namaMahasiswa; ?> [<?= $nim ?>]</p>
 </footer>
 <script src="script.js"></script>
 </body>
