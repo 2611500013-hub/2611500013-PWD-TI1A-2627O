@@ -123,7 +123,7 @@ while ($nomorSemester <= 1) {
     <h2>Kontak</h2>
     <p>Kunjungi <a href="https://github.com/<?php echo PROFIL_GITHUB; ?>" target="_blank" rel="noopener noreferrer">profil GitHub saya</a>.</p>
 
-    <form id="contactForm" action="index.php" method="get" novalidate>
+    <form id="contactForm" action="index.php" method="get" invalidate>
 
         <div class="form-group">
             <label for="nama">Nama Lengkap</label><br>
