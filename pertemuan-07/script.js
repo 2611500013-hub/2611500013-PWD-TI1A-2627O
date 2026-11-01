@@ -36,6 +36,9 @@ contactForm.addEventListener("submit", (event) => {
 	const nama = namaInput.value.trim();
 	const email = emailInput.value.trim();
 	const semester = Number(semesterInput.value);
+	const topikDipilih = document.querySelectorAll(
+		'input[name="minat"]:checked, input[name="minat[]"]:checked'
+	);
 
 	if (nama.length < 3 || nama.length > 50) {
 		formFeedback.textContent = "Nama lengkap harus diisi 3 sampai 50 karakter.";
@@ -56,6 +59,12 @@ contactForm.addEventListener("submit", (event) => {
 		return;
 	}
 
+	if (topikDipilih.length === 0) {
+		formFeedback.textContent = "Pilih minimal satu topik yang diminati.";
+		formFeedback.className = "form-feedback error";
+		return;
+	}
+
 	if (!contactForm.reportValidity()) {
 		formFeedback.textContent = "Periksa kembali kolom formulir yang wajib diisi.";
 		formFeedback.className = "form-feedback error";
@@ -63,7 +72,10 @@ contactForm.addEventListener("submit", (event) => {
 	}
 
 	formFeedback.textContent = "Form berhasil divalidasi.";
-	formFeedback.className = "form-feedback success";
+	formFeedback.className = "form-feedback-success";
+
+	// Kirimkan formulir secara fisik ke peladen PHP
+	contactForm.submit();
 });
 
 contactForm.addEventListener("input", () => {
