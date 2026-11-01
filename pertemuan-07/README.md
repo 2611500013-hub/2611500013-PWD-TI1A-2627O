@@ -33,3 +33,15 @@ Di `script.js`, validasi sisi klien memeriksa panjang nama, format email, rentan
 - Pengiriman POST dengan data valid, termasuk topik `HTML`: **lulus**, setelah redirect data formulir tampil pada bagian “Data yang Diterima Peladen”.
 - Pemeriksaan sintaks JavaScript dengan `node --check`: **tidak dijalankan**, Node.js tidak tersedia di lingkungan pengujian.
 - Pengujian interaksi visual dan perilaku formulir di browser: **belum dilakukan**.
+
+#### Skenario Uji Formulir
+
+| Skenario | Data uji | Hasil yang diharapkan | Hasil |
+|---|---|---|---|
+| Membuka halaman | Permintaan GET ke `index.php` | Halaman formulir tampil dengan HTTP 200 | Lulus |
+| Validasi data tidak lengkap | POST tanpa nama, tanggal, pilihan wajib, atau pesan | Setelah redirect, pesan kesalahan kelengkapan ditampilkan | Lulus |
+| Validasi format email | Email `bad` | Pesan format email tidak valid ditampilkan setelah redirect | Lulus |
+| Validasi semester | Semester `15` | Pesan bahwa semester harus berupa bilangan bulat 1-14 ditampilkan | Lulus |
+| Pengiriman data valid | Nama, email valid, semester `1`, tanggal, pilihan, minat `HTML`, dan pesan | Setelah redirect, data formulir tampil dengan aman pada bagian data yang diterima | Lulus |
+
+Skenario HTTP dijalankan menggunakan server PHP lokal dan sesi yang terpisah untuk masing-masing pengiriman. Validasi sisi klien di browser belum diuji secara interaktif; validasi peladen tetap dijalankan sebagai pemeriksaan utama untuk setiap POST.
