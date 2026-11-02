@@ -6,8 +6,12 @@ if (session_status() === PHP_SESSION_NONE) {
 // P7: Memproses data formulir dan menyimpannya ke dalam session.
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	if (($_POST["action"] ?? "") === "submit_rencana") {
+		$nimMahasiswa = trim((string) ($_POST["nim_mahasiswa"] ?? ""));
+		$anggaranKegiatan = trim((string) ($_POST["anggaran_kegiatan"] ?? ""));
 		$namaKegiatan = trim((string) ($_POST["nama_kegiatan"] ?? ""));
 		$kategoriKegiatan = trim((string) ($_POST["kategori_kegiatan"] ?? ""));
+		$dosenPembimbing = trim((string) ($_POST["dosen_pembimbing"] ?? ""));
+		$targetPeserta = trim((string) ($_POST["target_peserta"] ?? ""));
 		$tanggalPelaksanaan = trim((string) ($_POST["tanggal_pelaksanaan"] ?? ""));
 		$lokasiKegiatan = trim((string) ($_POST["lokasi_kegiatan"] ?? ""));
 		$deskripsiKegiatan = trim((string) ($_POST["deskripsi_kegiatan"] ?? ""));
@@ -17,11 +21,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 			"Organisasi",
 			"Pemahaman Tentang Teknik Informatika",
 		], true);
+		$dosenValid = in_array($dosenPembimbing, [
+			"Yohanes Setiawan, M.Kom.",
+			"Chandra Kirana, M.Kom.",
+			"Dr. Ellya Helmud, M.Kom.",
+		], true);
+		$targetValid = in_array($targetPeserta, [
+			"Internal Kelas TI1A",
+			"Mahasiswa Fakultas TI",
+			"Umum / Luar Kampus",
+		], true);
+		$anggaranValid = preg_match("/^\d+$/", $anggaranKegiatan) === 1;
 		$tanggalValid = DateTime::createFromFormat("!Y-m-d", $tanggalPelaksanaan);
 
 		if (
+			!preg_match("/^\d{10}$/", $nimMahasiswa) ||
+			!$anggaranValid ||
 			$namaKegiatan === "" ||
 			!$kategoriValid ||
+			!$dosenValid ||
+			!$targetValid ||
 			!$tanggalValid ||
 			$tanggalValid->format("Y-m-d") !== $tanggalPelaksanaan ||
 			$lokasiKegiatan === "" ||
@@ -31,8 +50,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 			unset($_SESSION["sukses_kegiatan"], $_SESSION["data_kegiatan"]);
 		} else {
 			$_SESSION["data_kegiatan"] = [
+				"nim_mahasiswa" => $nimMahasiswa,
+				"anggaran" => $anggaranKegiatan,
 				"nama" => $namaKegiatan,
 				"kategori" => $kategoriKegiatan,
+				"dosen_pembimbing" => $dosenPembimbing,
+				"target_peserta" => $targetPeserta,
 				"tanggal" => $tanggalPelaksanaan,
 				"lokasi" => $lokasiKegiatan,
 				"deskripsi" => $deskripsiKegiatan,
@@ -239,12 +262,28 @@ switch ($programStudi) {
 						</div>
 						<dl class="kegiatan-data-grid">
 							<div class="kegiatan-data-item">
+								<dt>Informasi Pengusul</dt>
+								<dd><?php echo "NIM Pengusul: " . htmlspecialchars($_SESSION["data_kegiatan"]["nim_mahasiswa"], ENT_QUOTES, "UTF-8") . "<br>"; ?></dd>
+							</div>
+							<div class="kegiatan-data-item">
+								<dt>Estimasi Anggaran</dt>
+								<dd><?php echo "Estimasi Anggaran: Rp " . htmlspecialchars(number_format((int) $_SESSION["data_kegiatan"]["anggaran"], 0, ",", "."), ENT_QUOTES, "UTF-8") . "<br>"; ?></dd>
+							</div>
+							<div class="kegiatan-data-item">
 								<dt>Nama Kegiatan</dt>
 								<dd><?= htmlspecialchars($_SESSION["data_kegiatan"]["nama"], ENT_QUOTES, "UTF-8") ?></dd>
 							</div>
 							<div class="kegiatan-data-item">
 								<dt>Kategori Kegiatan</dt>
 								<dd><?= htmlspecialchars($_SESSION["data_kegiatan"]["kategori"], ENT_QUOTES, "UTF-8") ?></dd>
+							</div>
+							<div class="kegiatan-data-item">
+								<dt>Dosen Penanggung Jawab / Pembimbing</dt>
+								<dd><?php echo "Dosen Pembimbing: " . htmlspecialchars($_SESSION["data_kegiatan"]["dosen_pembimbing"], ENT_QUOTES, "UTF-8") . "<br>"; ?></dd>
+							</div>
+							<div class="kegiatan-data-item">
+								<dt>Target Peserta</dt>
+								<dd><?= htmlspecialchars($_SESSION["data_kegiatan"]["target_peserta"], ENT_QUOTES, "UTF-8") ?></dd>
 							</div>
 							<div class="kegiatan-data-item">
 								<dt>Tanggal Pelaksanaan</dt>
@@ -266,6 +305,16 @@ switch ($programStudi) {
 					<input type="hidden" name="action" value="submit_rencana">
 
 					<div class="form-group">
+						<label for="nim_mahasiswa">NIM Pengusul</label>
+						<input type="text" id="nim_mahasiswa" name="nim_mahasiswa" class="input-form" placeholder="Contoh: 2611500013" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" required>
+					</div>
+
+					<div class="form-group">
+						<label for="anggaran_kegiatan">Estimasi Anggaran (Rp)</label>
+						<input type="number" id="anggaran_kegiatan" name="anggaran_kegiatan" class="input-form" placeholder="Masukkan nominal tanpa titik/koma" min="0" step="1" required>
+					</div>
+
+					<div class="form-group">
 						<label for="nama_kegiatan">Nama Kegiatan</label>
 						<input type="text" id="nama_kegiatan" name="nama_kegiatan" class="input-form" required>
 					</div>
@@ -278,6 +327,26 @@ switch ($programStudi) {
 							<option value="Non-Akademik">Non-Akademik (Olahraga/Seni)</option>
 							<option value="Organisasi">Organisasi (Rapat/LDKM)</option>
 							<option value="Pemahaman Tentang Teknik Informatika">Pemahaman Tentang Teknik Informatika</option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label for="dosen_pembimbing">Dosen Penanggung Jawab / Pembimbing</label>
+						<select id="dosen_pembimbing" name="dosen_pembimbing" class="input-form" required>
+							<option value="">-- Pilih Dosen --</option>
+							<option value="Yohanes Setiawan, M.Kom.">Yohanes Setiawan, M.Kom.</option>
+							<option value="Chandra Kirana, M.Kom.">Chandra Kirana, M.Kom.</option>
+							<option value="Dr. Ellya Helmud, M.Kom.">Dr. Ellya Helmud, M.Kom.</option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label for="target_peserta">Target Peserta</label>
+						<select id="target_peserta" name="target_peserta" class="input-form" required>
+							<option value="">-- Pilih Target --</option>
+							<option value="Internal Kelas TI1A">Internal Kelas TI1A</option>
+							<option value="Mahasiswa Fakultas TI">Mahasiswa Fakultas TI</option>
+							<option value="Umum / Luar Kampus">Umum / Luar Kampus</option>
 						</select>
 					</div>
 

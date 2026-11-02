@@ -131,15 +131,31 @@ const formKegiatan = document.getElementById("formKegiatan");
 
 if (formKegiatan) {
   formKegiatan.addEventListener("submit", (event) => {
+    const nimMahasiswa = document.getElementById("nim_mahasiswa").value.trim();
+    const anggaran = document.getElementById("anggaran_kegiatan").value.trim();
     const nama = document.getElementById("nama_kegiatan").value.trim();
     const kategori = document.getElementById("kategori_kegiatan").value;
+    const dosenPembimbing = document.getElementById("dosen_pembimbing").value;
+    const targetPeserta = document.getElementById("target_peserta").value;
     const tanggal = document.getElementById("tanggal_pelaksanaan").value;
     const lokasi = document.getElementById("lokasi_kegiatan").value.trim();
     const deskripsi = document
       .getElementById("deskripsi_kegiatan")
       .value.trim();
 
-    if (!nama || !kategori || !tanggal || !lokasi || !deskripsi) {
+    if (!/^\d{10}$/.test(nimMahasiswa)) {
+      alert("NIM Pengusul harus terdiri dari 10 digit angka.");
+      event.preventDefault();
+      return;
+    }
+
+    if (!/^\d+$/.test(anggaran)) {
+      alert("Estimasi anggaran harus diisi dengan nominal Rupiah berupa angka bulat.");
+      event.preventDefault();
+      return;
+    }
+
+    if (!nama || !kategori || !dosenPembimbing || !targetPeserta || !tanggal || !lokasi || !deskripsi) {
       alert("Semua kolom formulir harus diisi sebelum mengirim!");
       event.preventDefault();
     }

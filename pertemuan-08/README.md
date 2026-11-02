@@ -14,9 +14,12 @@ diproses di sisi server dan disimpan sementara di session.
 - **Formulir kontak**: memeriksa isian di JavaScript, mengirim data dengan
   metode POST, menyimpan hasilnya di session, dan menampilkannya kembali pada
   halaman.
-- **Formulir Rencana Kegiatan Mahasiswa**: menerima nama, kategori, tanggal,
-  lokasi, dan deskripsi kegiatan. Pilihan kategori mencakup Akademik,
-  Non-Akademik, Organisasi, dan Pemahaman Tentang Teknik Informatika.
+- **Formulir Rencana Kegiatan Mahasiswa**: menerima NIM pengusul, estimasi
+  anggaran, nama, kategori, dosen penanggung jawab/pembimbing, target peserta,
+  tanggal, lokasi, dan deskripsi
+  kegiatan. NIM harus terdiri dari 10 digit. Pilihan kategori mencakup Akademik,
+  Non-Akademik, Organisasi, dan Pemahaman Tentang Teknik Informatika; pilihan
+  dosen mencakup Yohanes Setiawan, Chandra Kirana, dan Dr. Ellya Helmud.
 - **Validasi kegiatan**: JavaScript mencegah pengiriman jika ada kolom kosong
   atau hanya berisi spasi. PHP juga memvalidasi isian, kategori yang diizinkan,
   dan format tanggal di server.
