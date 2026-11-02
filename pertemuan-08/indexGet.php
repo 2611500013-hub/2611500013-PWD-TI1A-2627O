@@ -14,8 +14,8 @@ $nim = "2611500013";
 $namaMahasiswa = "Ricko Ferdian";
 $programStudi = "TI";
 $tahunAkademik = "2026/2027";
-$semester = 4;
-$ipk = 3.75;
+$semester = 1;
+$ipk = 0;
 $statusAktif = true;
 $catatanTambahan = null;
 
