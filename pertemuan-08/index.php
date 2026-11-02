@@ -263,11 +263,11 @@ switch ($programStudi) {
 						<dl class="kegiatan-data-grid">
 							<div class="kegiatan-data-item">
 								<dt>Informasi Pengusul</dt>
-								<dd><?php echo "NIM Pengusul: " . htmlspecialchars($_SESSION["data_kegiatan"]["nim_mahasiswa"], ENT_QUOTES, "UTF-8") . "<br>"; ?></dd>
+								<dd><?= htmlspecialchars($_SESSION["data_kegiatan"]["nim_mahasiswa"], ENT_QUOTES, "UTF-8") ?></dd>
 							</div>
 							<div class="kegiatan-data-item">
 								<dt>Estimasi Anggaran</dt>
-								<dd><?php echo "Estimasi Anggaran: Rp " . htmlspecialchars(number_format((int) $_SESSION["data_kegiatan"]["anggaran"], 0, ",", "."), ENT_QUOTES, "UTF-8") . "<br>"; ?></dd>
+								<dd>Rp <?= htmlspecialchars(number_format((int) $_SESSION["data_kegiatan"]["anggaran"], 0, ",", "."), ENT_QUOTES, "UTF-8") ?></dd>
 							</div>
 							<div class="kegiatan-data-item">
 								<dt>Nama Kegiatan</dt>
@@ -279,7 +279,7 @@ switch ($programStudi) {
 							</div>
 							<div class="kegiatan-data-item">
 								<dt>Dosen Penanggung Jawab / Pembimbing</dt>
-								<dd><?php echo "Dosen Pembimbing: " . htmlspecialchars($_SESSION["data_kegiatan"]["dosen_pembimbing"], ENT_QUOTES, "UTF-8") . "<br>"; ?></dd>
+								<dd><?= htmlspecialchars($_SESSION["data_kegiatan"]["dosen_pembimbing"], ENT_QUOTES, "UTF-8") ?></dd>
 							</div>
 							<div class="kegiatan-data-item">
 								<dt>Target Peserta</dt>
