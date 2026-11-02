@@ -20,7 +20,7 @@ $statusAktif = true;
 $catatanTambahan = null;
 
 const NAMA_MATA_KULIAH = "Pemrograman Web Dasar";
-const PROFIL_GITHUB = "rickoferdian";
+const PROFIL_GITHUB = "https://github.com/2611500013-hub/2611500013-PWD-TI1A-2627O.git";
 
 // Bagian 2: Operator
 $batasSemester = 8;
@@ -154,7 +154,7 @@ switch ($programStudi) {
 
 			<p>
 				Kunjungi
-				<a target="_blank" href="https://github.com/<?= PROFIL_GITHUB ?>">profil GitHub saya</a>.
+				<a target="_blank" rel="noopener noreferrer" href="<?= PROFIL_GITHUB ?>">profil GitHub saya</a>.
 			</p>
 
 			<form id="contactForm" action="index.php" method="get" novalidate>

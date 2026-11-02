@@ -77,17 +77,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 // Mengamankan data sebelum ditampilkan kembali ke halaman HTML.
 // P6: PHP dasar dan pemrograman sisi peladen
 // Bagian 1: Variabel dan konstanta
-$nim = "0344300002";
-$namaMahasiswa = "Cantika Putih";
-$programStudi = "SI";
+$nim = "2611500013";
+$namaMahasiswa = "Ricko Ferdian";
+$programStudi = "TI";
 $tahunAkademik = "2026/2027";
-$semester = 4;
-$ipk = 3.75;
+$semester = 1;
+$ipk = 0;
 $statusAktif = true;
 $catatanTambahan = null;
 
 const NAMA_MATA_KULIAH = "Pemrograman Web Dasar";
-const PROFIL_GITHUB = "satpamal";
+const PROFIL_GITHUB = "https://github.com/2611500013-hub/2611500013-PWD-TI1A-2627O.git";
 
 // Bagian 2: Operator
 $batasSemester = 8;
@@ -307,7 +307,7 @@ switch ($programStudi) {
 
 			<p>
 				Kunjungi
-				<a target="_blank" href="https://github.com/<?= PROFIL_GITHUB ?>">profil GitHub saya</a>.
+				<a target="_blank" rel="noopener noreferrer" href="<?= PROFIL_GITHUB ?>">profil GitHub saya</a>.
 			</p>
 
 			<form id="contactForm" class="js-contact-form" data-validation="contact" action="index.php" method="post" novalidate>
