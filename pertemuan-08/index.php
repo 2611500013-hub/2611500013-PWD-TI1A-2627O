@@ -7,7 +7,6 @@ if (session_status() === PHP_SESSION_NONE) {
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	if (($_POST["action"] ?? "") === "submit_rencana") {
 		$nimMahasiswa = trim((string) ($_POST["nim_mahasiswa"] ?? ""));
-		$anggaranKegiatan = trim((string) ($_POST["anggaran_kegiatan"] ?? ""));
 		$namaKegiatan = trim((string) ($_POST["nama_kegiatan"] ?? ""));
 		$kategoriKegiatan = trim((string) ($_POST["kategori_kegiatan"] ?? ""));
 		$dosenPembimbing = trim((string) ($_POST["dosen_pembimbing"] ?? ""));
@@ -31,12 +30,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 			"Mahasiswa Fakultas TI",
 			"Umum / Luar Kampus",
 		], true);
-		$anggaranValid = preg_match("/^\d+$/", $anggaranKegiatan) === 1;
 		$tanggalValid = DateTime::createFromFormat("!Y-m-d", $tanggalPelaksanaan);
 
 		if (
 			!preg_match("/^\d{10}$/", $nimMahasiswa) ||
-			!$anggaranValid ||
 			$namaKegiatan === "" ||
 			!$kategoriValid ||
 			!$dosenValid ||
@@ -51,7 +48,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		} else {
 			$_SESSION["data_kegiatan"] = [
 				"nim_mahasiswa" => $nimMahasiswa,
-				"anggaran" => $anggaranKegiatan,
 				"nama" => $namaKegiatan,
 				"kategori" => $kategoriKegiatan,
 				"dosen_pembimbing" => $dosenPembimbing,
@@ -266,10 +262,6 @@ switch ($programStudi) {
 								<dd><?= htmlspecialchars($_SESSION["data_kegiatan"]["nim_mahasiswa"], ENT_QUOTES, "UTF-8") ?></dd>
 							</div>
 							<div class="kegiatan-data-item">
-								<dt>Estimasi Anggaran</dt>
-								<dd>Rp <?= htmlspecialchars(number_format((int) $_SESSION["data_kegiatan"]["anggaran"], 0, ",", "."), ENT_QUOTES, "UTF-8") ?></dd>
-							</div>
-							<div class="kegiatan-data-item">
 								<dt>Nama Kegiatan</dt>
 								<dd><?= htmlspecialchars($_SESSION["data_kegiatan"]["nama"], ENT_QUOTES, "UTF-8") ?></dd>
 							</div>
@@ -307,11 +299,6 @@ switch ($programStudi) {
 					<div class="form-group">
 						<label for="nim_mahasiswa">NIM Pengusul</label>
 						<input type="text" id="nim_mahasiswa" name="nim_mahasiswa" class="input-form" placeholder="Contoh: 2611500013" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" required>
-					</div>
-
-					<div class="form-group">
-						<label for="anggaran_kegiatan">Estimasi Anggaran (Rp)</label>
-						<input type="number" id="anggaran_kegiatan" name="anggaran_kegiatan" class="input-form" placeholder="Masukkan nominal tanpa titik/koma" min="0" step="1" required>
 					</div>
 
 					<div class="form-group">
