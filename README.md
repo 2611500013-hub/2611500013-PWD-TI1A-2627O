@@ -6,4 +6,4 @@ Tahun Ajaran: 2026/2027 Gasal
 
 Repository ini digunakan untuk mendokumentasikan perkembangan pembelajaran mata kuliah Pemrograman Web Dasar dari Pertemuan 1 sampai dengan Pertemuan 16.
 
-Catatan: kami menyalin file artefak dari pertemuan 8 ke folder arsip agar materi tugas tetap tersedia dan mudah dipelajari kembali.
+Catatan: kami menyalin semua file artefak dari folder `pertemuan-08` ke folder `pertemuan-09`.
