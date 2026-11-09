@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . "/fungsi.php";
+
 if (session_status() === PHP_SESSION_NONE) {
 	session_start();
 }
@@ -77,16 +79,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	if (!is_array($minat)) {
 		$minat = [];
 	}
+	$minat = array_values(array_filter($minat, static function ($item): bool {
+		return is_string($item) && in_array($item, ["HTML", "CSS"], true);
+	}));
 
-	// Menyimpan setiap nilai formulir ke dalam session secara terpisah.
-	$_SESSION["nama"] = $nama;
-	$_SESSION["email"] = $email;
-	$_SESSION["semester"] = $semesterForm;
-	$_SESSION["tanggal"] = $tanggal;
-	$_SESSION["jenis_pesan"] = $jenisPesan;
-	$_SESSION["minat"] = $minat;
-	$_SESSION["prodi"] = $prodi;
-	$_SESSION["pesan"] = $pesan;
+	// Menyimpan semua nilai formulir kontak dalam satu array session.
+	$_SESSION["data_kontak"] = [
+		"nama" => $nama,
+		"email" => $email,
+		"semester" => $semesterForm,
+		"tanggal" => $tanggal,
+		"jenis_pesan" => $jenisPesan,
+		"minat" => $minat,
+		"prodi" => $prodi,
+		"pesan" => $pesan,
+	];
 
 	// PRG: mencegah pengiriman POST berulang ketika halaman dimuat ulang.
 	header("Location: index.php#contact");
@@ -233,6 +240,16 @@ switch ($programStudi) {
 					}
 					?>
 				</ol>
+
+				<h3>Contoh Fungsi bersihkan()</h3>
+				<p>
+					Fungsi ini merapikan spasi di awal dan akhir, menghapus backslash,
+					lalu mengubah karakter khusus HTML agar ditampilkan sebagai teks.
+				</p>
+				<pre><code>echo bersihkan("&lt;script&gt;alert('hai');&lt;/script&gt;");</code></pre>
+				<p>Hasil aman:
+					<code><?php echo bersihkan("<script>alert('hai');</script>"); ?></code>
+				</p>
 			</article>
 		</section>
 
@@ -242,7 +259,7 @@ switch ($programStudi) {
 
 				<?php if (isset($_SESSION["error_kegiatan"])): ?>
 					<div class="kegiatan-alert kegiatan-alert-error" role="alert">
-						<?= htmlspecialchars($_SESSION["error_kegiatan"], ENT_QUOTES, "UTF-8") ?>
+						<?= bersihkan($_SESSION["error_kegiatan"]) ?>
 					</div>
 					<?php unset($_SESSION["error_kegiatan"]); ?>
 				<?php endif; ?>
@@ -259,35 +276,35 @@ switch ($programStudi) {
 						<dl class="kegiatan-data-grid">
 							<div class="kegiatan-data-item">
 								<dt>Informasi Pengusul</dt>
-								<dd><?= htmlspecialchars($_SESSION["data_kegiatan"]["nim_mahasiswa"], ENT_QUOTES, "UTF-8") ?></dd>
+								<dd><?= bersihkan($_SESSION["data_kegiatan"]["nim_mahasiswa"]) ?></dd>
 							</div>
 							<div class="kegiatan-data-item">
 								<dt>Nama Kegiatan</dt>
-								<dd><?= htmlspecialchars($_SESSION["data_kegiatan"]["nama"], ENT_QUOTES, "UTF-8") ?></dd>
+								<dd><?= bersihkan($_SESSION["data_kegiatan"]["nama"]) ?></dd>
 							</div>
 							<div class="kegiatan-data-item">
 								<dt>Kategori Kegiatan</dt>
-								<dd><?= htmlspecialchars($_SESSION["data_kegiatan"]["kategori"], ENT_QUOTES, "UTF-8") ?></dd>
+								<dd><?= bersihkan($_SESSION["data_kegiatan"]["kategori"]) ?></dd>
 							</div>
 							<div class="kegiatan-data-item">
 								<dt>Dosen Penanggung Jawab / Pembimbing</dt>
-								<dd><?= htmlspecialchars($_SESSION["data_kegiatan"]["dosen_pembimbing"], ENT_QUOTES, "UTF-8") ?></dd>
+								<dd><?= bersihkan($_SESSION["data_kegiatan"]["dosen_pembimbing"]) ?></dd>
 							</div>
 							<div class="kegiatan-data-item">
 								<dt>Target Peserta</dt>
-								<dd><?= htmlspecialchars($_SESSION["data_kegiatan"]["target_peserta"], ENT_QUOTES, "UTF-8") ?></dd>
+								<dd><?= bersihkan($_SESSION["data_kegiatan"]["target_peserta"]) ?></dd>
 							</div>
 							<div class="kegiatan-data-item">
 								<dt>Tanggal Pelaksanaan</dt>
-								<dd><?= htmlspecialchars($_SESSION["data_kegiatan"]["tanggal"], ENT_QUOTES, "UTF-8") ?></dd>
+								<dd><?= bersihkan($_SESSION["data_kegiatan"]["tanggal"]) ?></dd>
 							</div>
 							<div class="kegiatan-data-item">
 								<dt>Lokasi Kegiatan</dt>
-								<dd><?= htmlspecialchars($_SESSION["data_kegiatan"]["lokasi"], ENT_QUOTES, "UTF-8") ?></dd>
+								<dd><?= bersihkan($_SESSION["data_kegiatan"]["lokasi"]) ?></dd>
 							</div>
 							<div class="kegiatan-data-item kegiatan-data-description">
 								<dt>Deskripsi Kegiatan</dt>
-								<dd><?= nl2br(htmlspecialchars($_SESSION["data_kegiatan"]["deskripsi"], ENT_QUOTES, "UTF-8")) ?></dd>
+								<dd><?= nl2br(bersihkan($_SESSION["data_kegiatan"]["deskripsi"])) ?></dd>
 							</div>
 						</dl>
 					</article>
@@ -399,7 +416,7 @@ switch ($programStudi) {
 					<input class="input-form" type="date" id="tanggal" name="tanggal" required />
 				</div>
 
-				<div class="form-group">
+				<div class="form-group form-group-options">
 					<p>Jenis Pesan</p>
 
 					<input type="radio" id="pertanyaan" name="jenis_pesan" value="pertanyaan" required />
@@ -409,7 +426,7 @@ switch ($programStudi) {
 					<label for="saran">Saran</label>
 				</div>
 
-				<div class="form-group">
+				<div class="form-group form-group-options">
 					<p>Topik yang Diminati</p>
 
 					<input type="checkbox" id="minat-html" name="minat[]" value="HTML" />
@@ -429,7 +446,7 @@ switch ($programStudi) {
 					</select>
 				</div>
 
-				<div class="form-group">
+				<div class="form-group form-group-wide">
 					<label for="pesan">Pesan</label><br />
 
 					<textarea
@@ -446,19 +463,19 @@ switch ($programStudi) {
 				<p class="form-feedback" data-form-feedback aria-live="polite"></p>
 			</form>
 
-			<?php if (isset($_SESSION["nama"])): ?>
+			<?php if (isset($_SESSION["data_kontak"])): ?>
 				<article id="hasilKontak" class="submission-result" aria-live="polite">
 					<h3>Data Formulir yang Dikirim</h3>
-					<p><strong>Nama Lengkap:</strong> <?= htmlspecialchars($_SESSION["nama"] ?? "", ENT_QUOTES, "UTF-8") ?></p>
-					<p><strong>Email:</strong> <?= htmlspecialchars($_SESSION["email"] ?? "", ENT_QUOTES, "UTF-8") ?></p>
-					<p><strong>Semester:</strong> <?= htmlspecialchars($_SESSION["semester"] ?? "", ENT_QUOTES, "UTF-8") ?></p>
-					<p><strong>Tanggal Kunjungan:</strong> <?= htmlspecialchars($_SESSION["tanggal"] ?? "", ENT_QUOTES, "UTF-8") ?></p>
-					<p><strong>Jenis Pesan:</strong> <?= htmlspecialchars($_SESSION["jenis_pesan"] ?? "", ENT_QUOTES, "UTF-8") ?></p>
+					<p><strong>Nama Lengkap:</strong> <?= bersihkan($_SESSION["data_kontak"]["nama"] ?? "") ?></p>
+					<p><strong>Email:</strong> <?= bersihkan($_SESSION["data_kontak"]["email"] ?? "") ?></p>
+					<p><strong>Semester:</strong> <?= bersihkan($_SESSION["data_kontak"]["semester"] ?? "") ?></p>
+					<p><strong>Tanggal Kunjungan:</strong> <?= bersihkan($_SESSION["data_kontak"]["tanggal"] ?? "") ?></p>
+					<p><strong>Jenis Pesan:</strong> <?= bersihkan($_SESSION["data_kontak"]["jenis_pesan"] ?? "") ?></p>
 					<p><strong>Topik yang Diminati:</strong>
-						<?= htmlspecialchars(implode(", ", $_SESSION["minat"] ?? []), ENT_QUOTES, "UTF-8") ?>
+						<?= bersihkan(implode(", ", $_SESSION["data_kontak"]["minat"] ?? [])) ?>
 					</p>
-					<p><strong>Program Studi:</strong> <?= htmlspecialchars($_SESSION["prodi"] ?? "", ENT_QUOTES, "UTF-8") ?></p>
-					<p><strong>Pesan:</strong> <?= nl2br(htmlspecialchars($_SESSION["pesan"] ?? "", ENT_QUOTES, "UTF-8")) ?></p>
+					<p><strong>Program Studi:</strong> <?= bersihkan($_SESSION["data_kontak"]["prodi"] ?? "") ?></p>
+					<p><strong>Pesan:</strong> <?= nl2br(bersihkan($_SESSION["data_kontak"]["pesan"] ?? "")) ?></p>
 				</article>
 			<?php endif; ?>
 		</section>
