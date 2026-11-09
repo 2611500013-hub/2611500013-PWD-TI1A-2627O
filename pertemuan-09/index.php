@@ -241,15 +241,6 @@ switch ($programStudi) {
 					?>
 				</ol>
 
-				<h3>Contoh Fungsi bersihkan()</h3>
-				<p>
-					Fungsi ini merapikan spasi di awal dan akhir, menghapus backslash,
-					lalu mengubah karakter khusus HTML agar ditampilkan sebagai teks.
-				</p>
-				<pre><code>echo bersihkan("&lt;script&gt;alert('hai');&lt;/script&gt;");</code></pre>
-				<p>Hasil aman:
-					<code><?php echo bersihkan("<script>alert('hai');</script>"); ?></code>
-				</p>
 			</article>
 		</section>
 

@@ -11,9 +11,9 @@ dari `index.php` ke file terpisah bernama `fungsi.php`.
   terpisah dari kode halaman.
 - `index.php` memuat definisi fungsi melalui
   `require_once __DIR__ . "/fungsi.php";` sebelum fungsi digunakan.
-- Halaman menampilkan contoh pemrosesan teks berisi tag `<script>` untuk
-  menunjukkan bahwa karakter HTML akan ditampilkan sebagai teks dan tidak
-  dijalankan browser.
+- Fungsi `bersihkan()` dipakai saat menampilkan data formulir agar masukan
+  pengguna tidak diperlakukan sebagai markup HTML. Fungsi ini bukan informasi
+  profil, sehingga tidak ditampilkan sebagai baris tambahan pada bagian profil.
 
 ## File utama
 
@@ -48,21 +48,22 @@ dengan `stripslashes()`, dan melakukan escaping untuk konteks HTML dengan
 `htmlspecialchars()`. `ENT_QUOTES` meng-escape tanda kutip tunggal dan ganda,
 sedangkan `ENT_SUBSTITUTE` menangani byte UTF-8 yang tidak valid.
 
-Contoh penggunaan di `index.php`:
+Contoh penggunaan untuk menampilkan nilai formulir:
 
 ```php
-echo bersihkan("<script>alert('hai');</script>");
+<?= bersihkan($_SESSION["data_kontak"]["nama"] ?? "") ?>
 ```
 
-Hasil teks HTML-nya:
+Misalnya nilai yang diterima adalah:
 
 ```text
-&lt;script&gt;alert(&#039;hai&#039;);&lt;/script&gt;
+<script>alert('hai');</script>
 ```
 
-Karena tag telah di-escape, browser menampilkannya sebagai teks dan tidak
-menjalankan JavaScript. Fungsi ini digunakan saat output HTML dibuat; data
-session tetap disimpan tanpa escaping agar tidak terjadi escaping ganda.
+Setelah diproses, karakter khusus HTML di-escape sehingga browser menampilkan
+tag tersebut sebagai teks dan tidak menjalankan JavaScript. Fungsi digunakan
+saat menghasilkan output HTML, sedangkan data session disimpan tanpa escaping
+agar tidak terjadi escaping ganda.
 
 ## Menjalankan proyek
 
